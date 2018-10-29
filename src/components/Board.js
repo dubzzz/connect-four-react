@@ -14,7 +14,7 @@ class Board extends React.Component {
   }
 
   render() {
-    return this.props.grid.map(boardRow => (
+    const gridContent = this.props.grid.map(boardRow => (
       <div className="board-row">
         {boardRow.map((v, idx) => (
           <div className="board-cell" onClick={() => this.handlePlayAt(idx)}>
@@ -23,6 +23,7 @@ class Board extends React.Component {
         ))}
       </div>
     ));
+    return <div className="grid">{gridContent}</div>;
   }
 }
 

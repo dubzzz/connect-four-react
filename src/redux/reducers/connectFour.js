@@ -1,4 +1,4 @@
-import { PLAY_AT } from '../actionTypes';
+import { PLAY_AT, NEW_GAME } from '../actionTypes';
 import { emptyGrid, updateGrid } from './grid';
 import { Player } from '../models/player';
 
@@ -14,6 +14,12 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case NEW_GAME: {
+      return {
+        ...state,
+        grid: emptyGrid(DefaultDimensions.width, DefaultDimensions.height)
+      };
+    }
     case PLAY_AT: {
       const { columnIdx } = action.payload;
       return {
