@@ -2,11 +2,12 @@
   padding: 0px;
   margin: 0px;
   height: 48px;
+  clear: both;
 }
 
 .board-cell {
-  display: inline-block;
   border: 1px grey dotted;
   height: 48px;
   width: 48px;
+  float: left;
 }
