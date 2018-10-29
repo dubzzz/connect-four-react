@@ -1,3 +1,4 @@
 import { combineReducers } from 'redux';
+import connectFour from './connectFour';
 
-export default combineReducers({});
+export default combineReducers({ connectFour });
