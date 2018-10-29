@@ -20,7 +20,13 @@ class Board extends React.Component {
   };
 
   render() {
-    return <div />;
+    return this.state.grid.map(boardRow => (
+      <div className="board-row">
+        {boardRow.map(v => (
+          <div className="board-cell">{v}</div>
+        ))}
+      </div>
+    ));
   }
 }
 
