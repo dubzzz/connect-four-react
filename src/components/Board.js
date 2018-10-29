@@ -1,36 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { playAt } from '../redux/actions';
 
 import './Board.css';
-
-const Player = {
-  None: null,
-  PlayerA: 'O',
-  PlayerB: 'X'
-};
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { grid: this.emptyGrid() };
   }
 
-  emptyGrid = () => {
-    return [...Array(this.props.height)].map(_ => [...Array(this.props.width).map(_ => Player.None)]);
-  };
+  handlePlayAt(columnIdx) {
+    this.props.playAt(columnIdx);
+  }
 
   render() {
-    return this.state.grid.map(boardRow => (
+    return this.props.grid.map(boardRow => (
       <div className="board-row">
-        {boardRow.map(v => (
-          <div className="board-cell">{v}</div>
+        {boardRow.map((v, idx) => (
+          <div className="board-cell" onClick={() => this.handlePlayAt(idx)}>
+            {v}
+          </div>
         ))}
       </div>
     ));
   }
 }
 
+function mapStateToProps(state) {
+  return { grid: state.connectFour.grid };
+}
+
 export default connect(
-  null,
-  {}
+  mapStateToProps,
+  { playAt }
 )(Board);
