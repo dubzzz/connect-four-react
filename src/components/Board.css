@@ -6,8 +6,29 @@
 }
 
 .board-cell {
-  border: 1px grey dotted;
   height: 48px;
   width: 48px;
   float: left;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.board-cell.player-x {
+  background-color: blue;
+}
+.board-cell.player-o {
+  background-color: red;
+}
+
+.board-cell:after {
+  /* Taken from https://stackoverflow.com/questions/8286550/transparent-hollow-or-cut-out-circle/26481923 */
+  content: '';
+  position: absolute;
+  border-radius: 100%;
+  left: 2px;
+  top: 2px;
+  width: 44px;
+  height: 44px;
+  box-shadow: 0px 0px 0px 2000px #e3dfd2;
 }
