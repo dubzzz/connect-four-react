@@ -25,7 +25,7 @@ class Controls extends React.Component<Props, State> {
 type StateProps = {};
 
 function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {...bindActionCreators({newGame}, dispatch)};
+  return { ...bindActionCreators({ newGame }, dispatch) };
 }
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 

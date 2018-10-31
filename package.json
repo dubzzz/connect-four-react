@@ -20,8 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format:check": "prettier --list-different \"**/*.{js,json,css,md}\"",
-    "format": "prettier --write \"**/*.{js,json,css,md}\""
+    "format:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,7 +43,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.{js,jsx,ts,tsx,json,css,md}": [
       "prettier --write",
       "git add"
     ]

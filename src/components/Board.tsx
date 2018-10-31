@@ -23,14 +23,17 @@ class Board extends React.Component<Props, State> {
     const gridContent = this.props.grid.map(boardRow => (
       <div className="board-row">
         {boardRow.map((v, idx) => {
-          let className = "board-cell";
+          let className = 'board-cell';
           switch (v) {
-            case Player.PlayerA: className += ' player-x'; break;
-            case Player.PlayerB: className += ' player-o'; break;
+            case Player.PlayerA:
+              className += ' player-x';
+              break;
+            case Player.PlayerB:
+              className += ' player-o';
+              break;
           }
-          return (
-          <div className={className} onClick={() => this.handlePlayAt(idx)}></div>
-        )})}
+          return <div className={className} onClick={() => this.handlePlayAt(idx)} />;
+        })}
       </div>
     ));
     return <div className="grid">{gridContent}</div>;
@@ -43,7 +46,7 @@ function mapStateToProps(state: ReduxState) {
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {...bindActionCreators({playAt}, dispatch)};
+  return { ...bindActionCreators({ playAt }, dispatch) };
 }
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
