@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.3.2",
+    "@material-ui/icons": "^3.0.1",
     "@types/jest": "23.3.9",
     "@types/node": "10.12.1",
     "@types/react": "16.4.18",

@@ -4,6 +4,8 @@ import { newGame } from '../redux/actions';
 
 import './Controls.css';
 import { bindActionCreators, Dispatch, Action } from 'redux';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import Button from '@material-ui/core/Button';
 
 interface Props extends StateProps, DispatchProps {}
 type State = {};
@@ -16,7 +18,9 @@ class Controls extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.newGame()}>New Game</button>
+        <Button variant="contained" onClick={() => this.props.newGame()}>
+          New Game <NoteAddIcon />
+        </Button>
       </div>
     );
   }

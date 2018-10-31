@@ -36,7 +36,7 @@ class Board extends React.Component<Props, State> {
         })}
       </div>
     ));
-    return <div className="grid">{gridContent}</div>;
+    return <div className="board">{gridContent}</div>;
   }
 }
 
