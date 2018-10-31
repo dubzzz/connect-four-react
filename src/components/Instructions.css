@@ -1,0 +1,14 @@
+.instructions {
+  font-family: 'Courier New', Courier, monospace;
+  padding: 5px;
+  background-color: bisque;
+  margin: 15px;
+}
+
+.player-1 {
+  color: blue;
+}
+
+.player-2 {
+  color: red;
+}
