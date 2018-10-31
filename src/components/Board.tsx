@@ -26,13 +26,15 @@ class Board extends React.Component<Props, State> {
           let className = 'board-cell';
           switch (v) {
             case Player.PlayerA:
-              className += ' player-x';
+              className += ' player-1';
               break;
             case Player.PlayerB:
-              className += ' player-o';
+              className += ' player-2';
               break;
           }
-          return <div className={className} onClick={() => this.handlePlayAt(idx)} />;
+          const playable = this.props.grid[0][idx] === Player.None;
+          className += playable ? ' playable' : ' not-playable';
+          return <div className={className} onClick={playable ? () => this.handlePlayAt(idx) : undefined} />;
         })}
       </div>
     ));
