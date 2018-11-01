@@ -50,5 +50,6 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "homepage": "https://dubzzz.github.io/connect-four-react"
 }
