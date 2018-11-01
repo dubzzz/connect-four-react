@@ -23,7 +23,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test-ci": "set CI=true react-scripts test",
     "eject": "react-scripts eject",
     "format:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
