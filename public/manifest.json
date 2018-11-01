@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Connect Four",
+  "name": "Connect Four",
   "icons": [
     {
       "src": "favicon.ico",
