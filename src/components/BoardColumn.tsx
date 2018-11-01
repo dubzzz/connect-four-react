@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './BoardColumn.css';
-import { Player } from '../redux/models/player';
+import { Player } from '../models/player';
 import BoardCell from './BoardCell';
 
 interface Props {

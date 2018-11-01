@@ -5,7 +5,7 @@ import { playAt } from '../redux/actions';
 import './Board.css';
 import { ReduxState } from '../redux/reducers';
 import { Dispatch, bindActionCreators, Action } from 'redux';
-import { Player } from '../redux/models/player';
+import { Player } from '../models/player';
 import BoardColumn from './BoardColumn';
 
 interface Props extends StateProps, DispatchProps {}

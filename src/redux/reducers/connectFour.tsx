@@ -1,6 +1,6 @@
 import { PLAY_AT, NEW_GAME } from '../actionTypes';
 import { emptyGrid, updateGrid, isSuccessfulMove } from './grid';
-import { Player } from '../models/player';
+import { Player } from '../../models/player';
 import { Actions, playAt } from '../actions';
 
 const DefaultDimensions = {

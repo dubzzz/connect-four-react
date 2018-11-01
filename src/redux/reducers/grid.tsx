@@ -1,4 +1,4 @@
-import { Player } from '../models/player';
+import { Player } from '../../models/player';
 
 export const emptyGrid = (width: number, height: number) => {
   return [...Array(height)].map(_ => [...Array(width)].map(_ => Player.None));

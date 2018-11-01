@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './Instructions.css';
 import { bindActionCreators, Dispatch, Action } from 'redux';
 import { ReduxState } from '../redux/reducers';
-import { Player } from '../redux/models/player';
+import { Player } from '../models/player';
 
 interface Props extends StateProps, DispatchProps {}
 type State = {};
