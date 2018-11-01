@@ -3,6 +3,7 @@
   padding: 5px;
   background-color: bisque;
   margin: 15px;
+  line-height: 1.5em;
 }
 
 .player-1 {
@@ -11,4 +12,13 @@
 
 .player-2 {
   color: red;
+}
+
+.victory::before {
+  content: '\1F389';
+  margin-right: 0.5em;
+}
+.victory::after {
+  content: '\1F389';
+  margin-left: 0.5em;
 }

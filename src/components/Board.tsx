@@ -32,7 +32,7 @@ class Board extends React.Component<Props, State> {
               className += ' player-2';
               break;
           }
-          const playable = this.props.grid[0][idx] === Player.None;
+          const playable = this.props.grid[0][idx] === Player.None && !this.props.done;
           className += playable ? ' playable' : ' not-playable';
           return <div className={className} onClick={playable ? () => this.handlePlayAt(idx) : undefined} />;
         })}
@@ -43,7 +43,7 @@ class Board extends React.Component<Props, State> {
 }
 
 function mapStateToProps(state: ReduxState) {
-  return { grid: state.connectFour.grid };
+  return { grid: state.connectFour.grid, done: state.connectFour.winner !== Player.None };
 }
 type StateProps = ReturnType<typeof mapStateToProps>;
 

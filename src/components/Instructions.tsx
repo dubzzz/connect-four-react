@@ -15,17 +15,25 @@ class Instructions extends React.Component<Props, State> {
   }
 
   render() {
-    switch (this.props.currentPlayer) {
+    switch (this.props.winner) {
       case Player.PlayerA:
-        return <div className="instructions player-1">Player #1 turn</div>;
+        return <div className="instructions victory player-1">Player #1 won</div>;
       case Player.PlayerB:
-        return <div className="instructions player-2">Player #2 turn</div>;
+        return <div className="instructions victory player-2">Player #2 won</div>;
+      case Player.None: {
+        switch (this.props.currentPlayer) {
+          case Player.PlayerA:
+            return <div className="instructions player-1">Player #1 turn</div>;
+          case Player.PlayerB:
+            return <div className="instructions player-2">Player #2 turn</div>;
+        }
+      }
     }
   }
 }
 
 function mapStateToProps(state: ReduxState) {
-  return { currentPlayer: state.connectFour.currentPlayer };
+  return { currentPlayer: state.connectFour.currentPlayer, winner: state.connectFour.winner };
 }
 type StateProps = ReturnType<typeof mapStateToProps>;
 
