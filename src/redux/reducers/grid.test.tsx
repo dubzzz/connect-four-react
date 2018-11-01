@@ -1,5 +1,5 @@
 import * as fc from 'fast-check';
-import { emptyGrid, playToken } from './grid';
+import { emptyGrid, playToken, checkLastMoveOn } from './grid';
 import { Player } from '../../models/player';
 
 describe('emptyGrid', () => {
@@ -21,6 +21,7 @@ describe('emptyGrid', () => {
 
 const GridWidth = 7;
 const GridHeight = 6;
+const GridVictory = 4;
 const playerArb = fc.constantFrom(Player.PlayerA, Player.PlayerB);
 const gridArb = fc.genericTuple([...Array(GridWidth)].map(_ => fc.array(playerArb, 0, GridHeight))).map(gridSchema => {
   const grid = emptyGrid(GridWidth, GridHeight);
@@ -79,6 +80,124 @@ describe('playToken', () => {
         const clonedGrid = grid.map(row => row.slice());
         playToken(grid, selectedColumn, player);
         expect(grid).toEqual(clonedGrid);
+      })
+    ));
+});
+
+const computeNextRow = (grid: Player[][], col: number) => {
+  // compute the index of the row corresponding to the next token in col
+  const lastInColumn = grid.findIndex(row => row[col] !== Player.None);
+  return lastInColumn === -1 ? grid.length - 1 : lastInColumn - 1;
+};
+const replaceOrFillForPlayer = (grid: Player[][], player: Player, row: number, col: number) => {
+  // fill [row][col] with selected player
+  // while keeping a valid connect four grid (ie also fill the hole below [row][col] if necessary)
+  if (grid[row][col] === Player.None) {
+    for (let j = row; j !== grid.length && grid[j][col] === Player.None; ++j) {
+      grid[row][col] = player;
+    }
+  } else {
+    grid[row][col] = player;
+  }
+  return grid;
+};
+const lineVictoryPlayOnGridArb = fc
+  .tuple(playOnGridArb, playerArb, fc.integer(-GridVictory + 1, 0))
+  .filter(
+    ([{ grid, selectedColumn }, _player, offset]) =>
+      selectedColumn + offset >= 0 && selectedColumn + offset + GridVictory <= grid[0].length
+  )
+  .map(([{ grid, selectedColumn }, player, offset]) => {
+    const clonedGrid = grid.map(row => row.slice());
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    for (let idx = 0; idx !== GridVictory; ++idx) {
+      const col = selectedColumn + offset + idx;
+      if (col === selectedColumn) continue;
+      replaceOrFillForPlayer(clonedGrid, player, selectedRow, col);
+    }
+    return { grid: clonedGrid, selectedColumn, player };
+  });
+const columnVictoryPlayOnGridArb = fc.tuple(playOnGridArb, playerArb).map(([{ grid, selectedColumn }, player]) => {
+  const clonedGrid = grid.map(row => row.slice());
+  const selectedRow = computeNextRow(grid, selectedColumn);
+  if (grid.length - selectedRow >= GridVictory) {
+    for (let idx = 1; idx !== GridVictory; ++idx) clonedGrid[selectedRow + idx][selectedColumn] = player;
+  } else {
+    for (let idx = 1; idx !== GridVictory; ++idx) clonedGrid[clonedGrid.length - idx][selectedColumn] = player;
+  }
+  return { grid: clonedGrid, selectedColumn, player };
+});
+const topLeftDiagonalVictoryPlayOnGridArb = fc
+  .tuple(playOnGridArb, playerArb, fc.integer(-GridVictory + 1, 0))
+  .filter(([{ grid, selectedColumn }, _player, offset]) => {
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    return (
+      selectedColumn + offset >= 0 &&
+      selectedColumn + offset + GridVictory <= grid[0].length &&
+      selectedRow + offset >= 0 &&
+      selectedRow + offset + GridVictory <= grid.length
+    );
+  })
+  .map(([{ grid, selectedColumn }, player, offset]) => {
+    const clonedGrid = grid.map(row => row.slice());
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    for (let idx = 0; idx !== GridVictory; ++idx) {
+      const row = selectedRow + offset + idx;
+      const col = selectedColumn + offset + idx;
+      if (col === selectedColumn) continue;
+      replaceOrFillForPlayer(clonedGrid, player, row, col);
+    }
+    return { grid: clonedGrid, selectedColumn, player };
+  });
+const topRightDiagonalVictoryPlayOnGridArb = fc
+  .tuple(playOnGridArb, playerArb, fc.integer(-GridVictory + 1, 0))
+  .filter(([{ grid, selectedColumn }, _player, offset]) => {
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    return (
+      selectedColumn + offset >= 0 &&
+      selectedColumn + offset + GridVictory <= grid[0].length &&
+      selectedRow - offset - GridVictory > 0 &&
+      selectedRow - offset < grid.length
+    );
+  })
+  .map(([{ grid, selectedColumn }, player, offset]) => {
+    const clonedGrid = grid.map(row => row.slice());
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    for (let idx = 0; idx !== GridVictory; ++idx) {
+      const row = selectedRow - offset - idx;
+      const col = selectedColumn + offset + idx;
+      if (col === selectedColumn) continue;
+      replaceOrFillForPlayer(clonedGrid, player, row, col);
+    }
+    return { grid: clonedGrid, selectedColumn, player };
+  });
+describe('checkLastMoveOn', () => {
+  it('Should detect victory when ending line', () =>
+    fc.assert(
+      fc.property(lineVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
+      })
+    ));
+  it('Should detect victory when ending column', () =>
+    fc.assert(
+      fc.property(columnVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
+      })
+    ));
+  it('Should detect victory when ending top-left diagonal', () =>
+    fc.assert(
+      fc.property(topLeftDiagonalVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
+      })
+    ));
+  it('Should detect victory when ending top-right diagonal', () =>
+    fc.assert(
+      fc.property(topRightDiagonalVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
       })
     ));
 });
