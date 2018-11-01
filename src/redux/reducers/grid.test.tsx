@@ -25,7 +25,7 @@ const playerArb = fc.constantFrom(Player.PlayerA, Player.PlayerB);
 const gridArb = fc.genericTuple([...Array(GridWidth)].map(_ => fc.array(playerArb, 0, GridHeight))).map(gridSchema => {
   const grid = emptyGrid(GridWidth, GridHeight);
   for (let i = 0; i !== gridSchema.length; ++i)
-    for (let j = 0; j !== gridSchema[i].length; ++j) grid[j][i] = gridSchema[i][j];
+    for (let j = 0; j !== gridSchema[i].length; ++j) grid[GridHeight - j - 1][i] = gridSchema[i][j];
   return grid;
 });
 const playOnGridArb = fc
@@ -41,7 +41,22 @@ const playOnGridArb = fc
     const selectedColumn = playableColumns[seed % playableColumns.length];
     return { grid, selectedColumn };
   });
+const playOnFullColumnGridArb = fc.tuple(gridArb, fc.nat(GridWidth - 1)).map(([grid, selectedColumn]) => {
+  const clonedGrid = grid.map(row => row.slice());
+  for (let rowIdx = 0; rowIdx !== clonedGrid.length && clonedGrid[rowIdx][selectedColumn] === Player.None; ++rowIdx) {
+    clonedGrid[rowIdx][selectedColumn] = Player.PlayerA;
+  }
+  return { grid: clonedGrid, selectedColumn };
+});
+
 describe('playToken', () => {
+  it('Should put the token on top of the column', () =>
+    fc.assert(
+      fc.property(playOnGridArb, playerArb, ({ grid, selectedColumn }, player) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return nextGrid.map(row => row[selectedColumn]).find(c => c !== Player.None) === player;
+      })
+    ));
   it('Should add a single token in the grid', () =>
     fc.assert(
       fc.property(playOnGridArb, playerArb, ({ grid, selectedColumn }, player) => {
@@ -50,6 +65,20 @@ describe('playToken', () => {
         for (let j = 0; j !== grid.length; ++j)
           for (let i = 0; i !== grid[j].length; ++i) if (grid[j][i] !== nextGrid[j][i]) ++numDiffs;
         return numDiffs === 1;
+      })
+    ));
+  it('Should throw on non playable column', () =>
+    fc.assert(
+      fc.property(playOnFullColumnGridArb, playerArb, ({ grid, selectedColumn }, player) => {
+        expect(() => playToken(grid, selectedColumn, player)).toThrow();
+      })
+    ));
+  it('Should not alter existing grid', () =>
+    fc.assert(
+      fc.property(playOnGridArb, playerArb, ({ grid, selectedColumn }, player) => {
+        const clonedGrid = grid.map(row => row.slice());
+        playToken(grid, selectedColumn, player);
+        expect(grid).toEqual(clonedGrid);
       })
     ));
 });
