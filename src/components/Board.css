@@ -1,7 +1,7 @@
 .board {
   display: inline-block;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .board::after {
@@ -9,22 +9,21 @@
   position: absolute;
   left: -15px;
   right: -15px;
+  bottom: -15px;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 15px solid #e3dfd2;
 }
 
-.board-row {
+.board-column {
   padding: 0px;
   margin: 0px;
-  height: 48px;
-  clear: both;
+  display: inline-block;
 }
 
 .board-cell {
   height: 48px;
   width: 48px;
-  float: left;
   position: relative;
   margin: 0 auto;
   overflow: hidden;
