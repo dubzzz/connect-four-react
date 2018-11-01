@@ -171,6 +171,39 @@ const topRightDiagonalVictoryPlayOnGridArb = fc
     }
     return { grid: clonedGrid, selectedColumn, player };
   });
+const noVictoryPlayOnGridArb = fc
+  .tuple(
+    playOnGridArb,
+    playerArb,
+    fc.integer(-GridVictory + 2, -1),
+    fc.integer(-GridVictory + 2, -1),
+    fc.integer(-GridVictory + 2, -1),
+    fc.integer(-GridVictory + 2, -1)
+  )
+  .map(([{ grid, selectedColumn }, player, offsetLine, offsetCol, offsetTL, offsetTR]) => {
+    const otherPlayer = player === Player.PlayerA ? Player.PlayerB : Player.PlayerA;
+    const clonedGrid = grid.map(row => row.slice());
+    const selectedRow = computeNextRow(grid, selectedColumn);
+    const updateGrid = (row: number, col: number) => {
+      if (row < 0 || row >= clonedGrid.length) return;
+      if (col < 0 || col >= clonedGrid[0].length) return;
+      if (clonedGrid[row][col] === player) {
+        clonedGrid[row][col] = otherPlayer;
+      }
+    };
+    // no line will be possible
+    updateGrid(selectedRow, selectedColumn + offsetLine);
+    updateGrid(selectedRow, selectedColumn + offsetLine + GridVictory);
+    // no column will be possible
+    updateGrid(selectedRow - offsetCol, selectedColumn);
+    // no top-left diagonal possible
+    updateGrid(selectedRow + offsetLine, selectedColumn + offsetLine);
+    updateGrid(selectedRow + offsetLine + GridVictory, selectedColumn + offsetLine + GridVictory);
+    // no top-right diagonal possible
+    updateGrid(selectedRow - offsetLine, selectedColumn + offsetLine);
+    updateGrid(selectedRow - offsetLine - GridVictory, selectedColumn + offsetLine + GridVictory);
+    return { grid: clonedGrid, selectedColumn, player };
+  });
 describe('checkLastMoveOn', () => {
   it('Should detect victory when ending line', () =>
     fc.assert(
@@ -198,6 +231,13 @@ describe('checkLastMoveOn', () => {
       fc.property(topRightDiagonalVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
         const nextGrid = playToken(grid, selectedColumn, player);
         return checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
+      })
+    ));
+  it('Should not detect victory when no victory', () =>
+    fc.assert(
+      fc.property(noVictoryPlayOnGridArb, ({ grid, selectedColumn, player }) => {
+        const nextGrid = playToken(grid, selectedColumn, player);
+        return !checkLastMoveOn(nextGrid, selectedColumn, GridVictory);
       })
     ));
 });
