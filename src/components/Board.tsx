@@ -27,23 +27,13 @@ class Board extends React.Component<Props, State> {
         <div className="board-column">
           {this.props.grid.map(boardRow => {
             const cell = boardRow[col];
-            let className = 'board-cell';
-            switch (cell) {
-              case Player.PlayerA:
-                className += ' player-1';
-                break;
-              case Player.PlayerB:
-                className += ' player-2';
-                break;
-            }
-            className += playableColumn ? ' playable' : ' not-playable';
+            const className = `board-cell player-${cell} ${playableColumn ? 'playable' : 'not-playable'}`;
             return <div className={className} onClick={playableColumn ? () => this.handlePlayAt(col) : undefined} />;
           })}
         </div>
       );
     }
-    const currentClassName = this.props.currentPlayer === Player.PlayerA ? 'current-1' : 'current-2';
-    return <div className={'board ' + currentClassName}>{gridContent}</div>;
+    return <div className={'board player-' + this.props.currentPlayer}>{gridContent}</div>;
   }
 }
 

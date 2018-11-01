@@ -29,18 +29,18 @@
   overflow: hidden;
 }
 
-.board.current-1 .board-column:hover {
+.board.player-a .board-column:hover {
   background-color: rgba(0, 0, 255, 0.05);
 }
 
-.board.current-2 .board-column:hover {
+.board.player-b .board-column:hover {
   background-color: rgba(255, 0, 0, 0.05);
 }
 
-.board-cell.player-1 {
+.board-cell.player-a {
   background-color: blue;
 }
-.board-cell.player-2 {
+.board-cell.player-b {
   background-color: red;
 }
 
