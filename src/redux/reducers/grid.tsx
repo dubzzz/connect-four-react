@@ -1,10 +1,26 @@
 import { Player } from '../../models/player';
 
+/**
+ * Create an empty grid with the given dimensions
+ *
+ * @param width Width of the grid
+ * @param height Height of the grid
+ */
 export const emptyGrid = (width: number, height: number) => {
   return [...Array(height)].map(_ => [...Array(width)].map(_ => Player.None));
 };
 
-export const updateGrid = (grid: Player[][], playedColumn: number, player: Player) => {
+/**
+ * Create a new grid corresponding to the current grid
+ * with the addition of the new token
+ *
+ * WARNING: throws in case of full column
+ *
+ * @param grid Current grid
+ * @param playedColumn Location for the new token
+ * @param player Owner of the token
+ */
+export const playToken = (grid: Player[][], playedColumn: number, player: Player) => {
   for (let rowIdx = grid.length - 1; rowIdx >= 0; --rowIdx) {
     if (grid[rowIdx][playedColumn] === Player.None) {
       const next = [...grid].map(row => [...row]);
@@ -15,15 +31,14 @@ export const updateGrid = (grid: Player[][], playedColumn: number, player: Playe
   throw new Error(`Unable to play: invalid position`);
 };
 
-function* movePositionIt(x: number, y: number, dx: number, dy: number) {
-  while (true) {
-    x += dx;
-    y += dy;
-    yield { x, y };
-  }
-}
-
-export const isSuccessfulMove = (grid: Player[][], playedColumn: number, lineLengthSpec: number) => {
+/**
+ * Check if the latest token on {@link playedColumn} makes its owner win the game
+ *
+ * @param grid Current grid
+ * @param playedColumn Column to assess, corresponding to the latest token played
+ * @param winningCondition Winning condition, minimal length for a victory
+ */
+export const checkLastMoveOn = (grid: Player[][], playedColumn: number, winningCondition: number) => {
   // find the index of the last token in the column
   let playedRow = 0;
   for (; grid[playedRow][playedColumn] === Player.None; ++playedRow) {}
@@ -39,6 +54,9 @@ export const isSuccessfulMove = (grid: Player[][], playedColumn: number, lineLen
     }
     return length;
   };
+  const movePositionIt = function*(x: number, y: number, dx: number, dy: number) {
+    while (true) yield { x: (x += dx), y: (y += dy) };
+  };
   const lengthForDirection = (dx: number, dy: number) => {
     return (
       computeLength(movePositionIt(playedColumn, playedRow, -dx, -dy)) +
@@ -48,9 +66,9 @@ export const isSuccessfulMove = (grid: Player[][], playedColumn: number, lineLen
   };
 
   return (
-    lengthForDirection(0, 1) >= lineLengthSpec || // column
-    lengthForDirection(1, 0) >= lineLengthSpec || // line
-    lengthForDirection(1, 1) >= lineLengthSpec || // diagonal top-left
-    lengthForDirection(1, -1) >= lineLengthSpec // diagonal top-right
+    lengthForDirection(0, 1) >= winningCondition || // column
+    lengthForDirection(1, 0) >= winningCondition || // line
+    lengthForDirection(1, 1) >= winningCondition || // diagonal top-left
+    lengthForDirection(1, -1) >= winningCondition // diagonal top-right
   );
 };

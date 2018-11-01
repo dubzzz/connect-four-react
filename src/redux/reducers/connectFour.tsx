@@ -1,5 +1,5 @@
 import { PLAY_AT, NEW_GAME } from '../actionTypes';
-import { emptyGrid, updateGrid, isSuccessfulMove } from './grid';
+import { emptyGrid, playToken, checkLastMoveOn } from './grid';
 import { Player } from '../../models/player';
 import { Actions, playAt } from '../actions';
 
@@ -29,8 +29,8 @@ export default function(state = initialState, action: Actions) {
         throw new Error(`Game is over, a player already won`);
       }
       const { columnIdx } = (action as ReturnType<typeof playAt>).payload;
-      const updatedGrid = updateGrid(state.grid, columnIdx, state.currentPlayer);
-      const done = isSuccessfulMove(updatedGrid, columnIdx, DefaultDimensions.victory);
+      const updatedGrid = playToken(state.grid, columnIdx, state.currentPlayer);
+      const done = checkLastMoveOn(updatedGrid, columnIdx, DefaultDimensions.victory);
       return {
         ...state,
         grid: updatedGrid,
