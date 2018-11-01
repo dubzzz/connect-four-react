@@ -1,3 +1,7 @@
-# connect-four-react
+# Connect Four
+*with React & Redux*
 
-Trying React and Redux on a Connect Four
+---
+
+My first application using React and Redux.
+Quick demo available at: https://dubzzz.github.io/connect-four-react/
