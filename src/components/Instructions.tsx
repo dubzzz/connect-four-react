@@ -15,19 +15,11 @@ class Instructions extends React.Component<Props, State> {
   }
 
   render() {
-    switch (this.props.winner) {
-      case Player.PlayerA:
-        return <div className="instructions victory player-1">Player #1 won</div>;
-      case Player.PlayerB:
-        return <div className="instructions victory player-2">Player #2 won</div>;
-      case Player.None: {
-        switch (this.props.currentPlayer) {
-          case Player.PlayerA:
-            return <div className="instructions player-1">Player #1 turn</div>;
-          case Player.PlayerB:
-            return <div className="instructions player-2">Player #2 turn</div>;
-        }
-      }
+    const { winner, currentPlayer } = this.props;
+    if (winner !== Player.None) {
+      return <div className={`instructions victory player-${winner}`}>Player #{winner} won</div>;
+    } else {
+      return <div className={`instructions player-${currentPlayer}`}>Player #{currentPlayer} turn</div>;
     }
   }
 }

@@ -1,5 +1,5 @@
 export enum Player {
   None = '',
-  PlayerA = 'a',
-  PlayerB = 'b'
+  PlayerA = '1',
+  PlayerB = '2'
 }

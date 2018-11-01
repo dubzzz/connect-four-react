@@ -6,10 +6,10 @@
   overflow: hidden;
 }
 
-.board-cell.player-a {
+.board-cell.player-1 {
   background-color: blue;
 }
-.board-cell.player-b {
+.board-cell.player-2 {
   background-color: red;
 }
 
