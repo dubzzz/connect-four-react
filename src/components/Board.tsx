@@ -35,6 +35,9 @@ class Board extends React.Component<Props, State> {
               case Player.PlayerB:
                 className += ' player-2';
                 break;
+              case Player.None:
+                className += ' no-player';
+                break;
             }
             className += playableColumn ? ' playable' : ' not-playable';
             return <div className={className} onClick={playableColumn ? () => this.handlePlayAt(col) : undefined} />;
@@ -42,30 +45,17 @@ class Board extends React.Component<Props, State> {
         </div>
       );
     }
-    /*const gridContent = this.props.grid.map(boardRow => (
-      <div className="board-row">
-        {boardRow.map((v, idx) => {
-          let className = 'board-cell';
-          switch (v) {
-            case Player.PlayerA:
-              className += ' player-1';
-              break;
-            case Player.PlayerB:
-              className += ' player-2';
-              break;
-          }
-          const playable = this.props.grid[0][idx] === Player.None && !this.props.done;
-          className += playable ? ' playable' : ' not-playable';
-          return <div className={className} onClick={playable ? () => this.handlePlayAt(idx) : undefined} />;
-        })}
-      </div>
-    ));*/
-    return <div className="board">{gridContent}</div>;
+    const currentClassName = this.props.currentPlayer === Player.PlayerA ? 'current-1' : 'current-2';
+    return <div className={'board ' + currentClassName}>{gridContent}</div>;
   }
 }
 
 function mapStateToProps(state: ReduxState) {
-  return { grid: state.connectFour.grid, done: state.connectFour.winner !== Player.None };
+  return {
+    grid: state.connectFour.grid,
+    currentPlayer: state.connectFour.currentPlayer,
+    done: state.connectFour.winner !== Player.None
+  };
 }
 type StateProps = ReturnType<typeof mapStateToProps>;
 
