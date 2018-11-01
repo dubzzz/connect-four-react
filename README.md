@@ -1,5 +1,6 @@
 # Connect Four
-*with React & Redux*
+
+_with React & Redux_
 
 ---
 

@@ -1,11 +1,12 @@
 import React from 'react';
-import { connect, MapDispatchToPropsFactory } from 'react-redux';
+import { connect } from 'react-redux';
 import { playAt } from '../redux/actions';
 
 import './Board.css';
 import { ReduxState } from '../redux/reducers';
 import { Dispatch, bindActionCreators, Action } from 'redux';
 import { Player } from '../redux/models/player';
+import BoardColumn from './BoardColumn';
 
 interface Props extends StateProps, DispatchProps {}
 type State = {};
@@ -23,14 +24,13 @@ class Board extends React.Component<Props, State> {
     const gridContent = [];
     for (let col = 0; col !== this.props.grid[0].length; ++col) {
       const playableColumn = this.props.grid[0][col] === Player.None && !this.props.done;
+      const tokens = this.props.grid.map(boardRow => boardRow[col]);
       gridContent.push(
-        <div className="board-column">
-          {this.props.grid.map(boardRow => {
-            const cell = boardRow[col];
-            const className = `board-cell player-${cell} ${playableColumn ? 'playable' : 'not-playable'}`;
-            return <div className={className} onClick={playableColumn ? () => this.handlePlayAt(col) : undefined} />;
-          })}
-        </div>
+        <BoardColumn
+          playable={playableColumn}
+          tokens={tokens}
+          onClick={playableColumn ? () => this.handlePlayAt(col) : undefined}
+        />
       );
     }
     return <div className={'board player-' + this.props.currentPlayer}>{gridContent}</div>;

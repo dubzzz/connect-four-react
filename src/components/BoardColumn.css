@@ -1,0 +1,16 @@
+.board-column {
+  padding: 0px;
+  margin: 0px;
+  display: inline-block;
+}
+
+.board-column:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.board-column.playable {
+  cursor: pointer;
+}
+.board-column.not-playable {
+  cursor: not-allowed;
+}
