@@ -19,6 +19,7 @@ class Board extends React.Component<Props, State> {
       const tokens = this.props.grid.map(boardRow => boardRow[col]);
       gridContent.push(
         <BoardColumn
+          key={col}
           playable={playableColumn}
           tokens={tokens}
           onClick={playableColumn ? () => this.props.playAt(col) : undefined}

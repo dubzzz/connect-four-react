@@ -15,8 +15,8 @@ class BoardColumn extends React.Component<Props, State> {
   render() {
     return (
       <div className={`board-column ${this.props.playable ? 'playable' : 'not-playable'}`} onClick={this.props.onClick}>
-        {this.props.tokens.map(cell => (
-          <BoardCell player={cell} />
+        {this.props.tokens.map((cell, idx) => (
+          <BoardCell key={idx} player={cell} />
         ))}
       </div>
     );
