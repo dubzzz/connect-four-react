@@ -3,7 +3,7 @@ import { emptyGrid, playToken, checkLastMoveOn } from './grid';
 import { Player } from '../../models/player';
 import { Actions, playAt } from '../actions';
 
-const DefaultDimensions = {
+export const DefaultDimensions = {
   height: 6,
   width: 7,
   victory: 4
