@@ -11,7 +11,7 @@ import BoardColumn from './BoardColumn';
 interface Props extends StateProps, DispatchProps {}
 type State = {};
 
-class Board extends React.Component<Props, State> {
+export class Board extends React.Component<Props, State> {
   render() {
     const gridContent = [];
     for (let col = 0; col !== this.props.grid[0].length; ++col) {
