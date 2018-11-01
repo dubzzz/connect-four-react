@@ -2,10 +2,11 @@ import * as fc from 'fast-check';
 import { emptyGrid } from '../redux/reducers/grid';
 import { playerArb } from './player';
 import { Player } from '../models/player';
+import { DefaultDimensions } from '../redux/reducers/connectFour';
 
-export const TestGridWidth = 7;
-export const TestGridHeight = 6;
-export const TestGridVictory = 4;
+export const TestGridWidth = DefaultDimensions.width;
+export const TestGridHeight = DefaultDimensions.height;
+export const TestGridVictory = DefaultDimensions.victory;
 
 export const gridArb = fc
   .genericTuple([...Array(TestGridWidth)].map(_ => fc.array(playerArb, 0, TestGridHeight)))
