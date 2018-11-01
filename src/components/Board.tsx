@@ -35,9 +35,6 @@ class Board extends React.Component<Props, State> {
               case Player.PlayerB:
                 className += ' player-2';
                 break;
-              case Player.None:
-                className += ' no-player';
-                break;
             }
             className += playableColumn ? ' playable' : ' not-playable';
             return <div className={className} onClick={playableColumn ? () => this.handlePlayAt(col) : undefined} />;

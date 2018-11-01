@@ -29,11 +29,11 @@
   overflow: hidden;
 }
 
-.board.current-1 .board-column:hover .board-cell.no-player {
+.board.current-1 .board-column:hover {
   background-color: rgba(0, 0, 255, 0.05);
 }
 
-.board.current-2 .board-column:hover .board-cell.no-player {
+.board.current-2 .board-column:hover {
   background-color: rgba(255, 0, 0, 0.05);
 }
 
