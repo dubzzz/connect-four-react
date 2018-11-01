@@ -12,10 +12,6 @@ interface Props {
 type State = {};
 
 class BoardColumn extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className={`board-column ${this.props.playable ? 'playable' : 'not-playable'}`} onClick={this.props.onClick}>

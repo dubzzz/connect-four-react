@@ -9,10 +9,6 @@ interface Props {
 type State = {};
 
 class BoardCell extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     return <div className={`board-cell player-${this.props.player}`} />;
   }

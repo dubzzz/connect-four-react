@@ -10,10 +10,6 @@ interface Props extends StateProps, DispatchProps {}
 type State = {};
 
 class Instructions extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     const { winner, currentPlayer } = this.props;
     if (winner !== Player.None) {

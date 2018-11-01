@@ -11,10 +11,6 @@ interface Props extends StateProps, DispatchProps {}
 type State = {};
 
 class Controls extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>

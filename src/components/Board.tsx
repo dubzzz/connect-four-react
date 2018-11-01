@@ -12,14 +12,6 @@ interface Props extends StateProps, DispatchProps {}
 type State = {};
 
 class Board extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
-  handlePlayAt(columnIdx: number) {
-    this.props.playAt(columnIdx);
-  }
-
   render() {
     const gridContent = [];
     for (let col = 0; col !== this.props.grid[0].length; ++col) {
@@ -29,7 +21,7 @@ class Board extends React.Component<Props, State> {
         <BoardColumn
           playable={playableColumn}
           tokens={tokens}
-          onClick={playableColumn ? () => this.handlePlayAt(col) : undefined}
+          onClick={playableColumn ? () => this.props.playAt(col) : undefined}
         />
       );
     }
