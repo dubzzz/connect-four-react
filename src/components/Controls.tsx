@@ -14,7 +14,7 @@ class Controls extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <Button variant="contained" onClick={() => this.props.newGame()}>
+        <Button id="new-game-button" variant="contained" onClick={() => this.props.newGame()}>
           New Game <NoteAddIcon />
         </Button>
       </div>

@@ -11,9 +11,10 @@
     "@types/react": "16.4.18",
     "@types/react-dom": "16.0.9",
     "@types/react-redux": "6.0.9",
+    "@types/selenium-webdriver": "^3.0.13",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
-    "fast-check": "^1.7.1",
+    "jest": "^23.6.0",
     "jest-enzyme": "^7.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
@@ -21,6 +22,7 @@
     "react-scripts": "2.1.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.1.4"
   },
   "scripts": {
@@ -29,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "test-e2e": "jest --config jest-e2e.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,9 +44,13 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "fast-check": "^1.8.0",
     "husky": "^1.1.2",
     "lint-staged": "^8.0.0",
-    "prettier": "1.14.3"
+    "prettier": "1.14.3",
+    "selenium-webdriver": "^3.6.0",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^7.0.1"
   },
   "husky": {
     "hooks": {
