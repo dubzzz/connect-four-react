@@ -6,6 +6,8 @@ import { PlayForbiddenTokenCommand } from './commands/PlayForbiddenTokenCommand'
 import { PlayTokenCommand } from './commands/PlayTokenCommand';
 import { Grid } from './components/Grid';
 import { Model } from './Model';
+import { CheckPlayerTurnCommand } from './commands/CheckPlayerTurnCommand';
+import { CheckEndOfGameCommand } from './commands/CheckEndOfGameCommand';
 
 const TimeoutMs = 10 * 60 * 1000; // 10min
 
@@ -29,6 +31,8 @@ describe('Playing with commands on UI', function() {
           fc.commands(
             [
               fc.constant(new NewGameCommand()),
+              fc.constant(new CheckEndOfGameCommand()),
+              fc.constant(new CheckPlayerTurnCommand()),
               fc.constant(new PlayForbiddenTokenCommand(0)),
               fc.constant(new PlayForbiddenTokenCommand(1)),
               fc.constant(new PlayForbiddenTokenCommand(2)),
@@ -44,7 +48,7 @@ describe('Playing with commands on UI', function() {
               fc.constant(new PlayTokenCommand(5)),
               fc.constant(new PlayTokenCommand(6))
             ],
-            100
+            250
           ),
           async cmds => {
             await driver.get('http://localhost:3000/');
