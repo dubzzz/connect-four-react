@@ -32,6 +32,26 @@ export const playToken = (grid: Player[][], playedColumn: number, player: Player
 };
 
 /**
+ * Create a new grid corresponding to the current grid
+ * with the removal of the top token of the column
+ *
+ * WARNING: throws in case of empty column
+ *
+ * @param grid Current grid
+ * @param playedColumn Location for the new token
+ */
+export const unplayToken = (grid: Player[][], playedColumn: number) => {
+  for (let rowIdx = 0; rowIdx !== grid.length; ++rowIdx) {
+    if (grid[rowIdx][playedColumn] !== Player.None) {
+      const next = [...grid].map(row => [...row]);
+      next[rowIdx][playedColumn] = Player.None;
+      return next;
+    }
+  }
+  throw new Error(`Unable to unplay: invalid position`);
+};
+
+/**
  * Check if the latest token on {@link playedColumn} makes its owner win the game
  *
  * @param grid Current grid

@@ -17,7 +17,8 @@ export const anyStateArb: fc.Arbitrary<ReduxState> = fc.record({
   connectFour: fc.record({
     grid: gridArb,
     winner: playerOrNoneArb,
-    currentPlayer: playerOrNoneArb
+    currentPlayer: playerOrNoneArb,
+    history: fc.record({ past: fc.constant([]), future: fc.constant([]) })
   })
 });
 
@@ -28,7 +29,8 @@ export const notPlayableStateArb = fc
       connectFour: {
         grid,
         currentPlayer: player,
-        winner: Player.None
+        winner: Player.None,
+        history: { past: [], future: [] }
       }
     };
     return { state, selectedColumn };
@@ -45,7 +47,8 @@ export const playableVictoryStateArb = fc
       connectFour: {
         grid,
         currentPlayer: player,
-        winner: Player.None
+        winner: Player.None,
+        history: { past: [], future: [] }
       }
     };
     return { state, selectedColumn };
@@ -55,7 +58,8 @@ export const playableNoVictoryStateArb = noVictoryPlayOnGridArb.map(({ grid, sel
     connectFour: {
       grid,
       currentPlayer: player,
-      winner: Player.None
+      winner: Player.None,
+      history: { past: [], future: [] }
     }
   };
   return { state, selectedColumn };
@@ -70,7 +74,8 @@ export const gameOverStateArb = fc
       connectFour: {
         grid: playToken(state.connectFour.grid, selectedColumn, state.connectFour.currentPlayer),
         winner: state.connectFour.currentPlayer,
-        currentPlayer: randomPlayer // we could have just changed the player to move the the next one but setting a purely random one might cover additional cases (maybe useful if we add some king of penalty forbidding the player to play if she/he did something wrong..)
+        currentPlayer: randomPlayer, // we could have just changed the player to move the the next one but setting a purely random one might cover additional cases (maybe useful if we add some king of penalty forbidding the player to play if she/he did something wrong..)
+        history: { past: [], future: [] }
       }
     };
   });
