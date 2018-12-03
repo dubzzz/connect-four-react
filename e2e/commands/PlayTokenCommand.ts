@@ -19,14 +19,15 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
 
     // Assert
     const newGrid = await Grid.read(driver);
-    const differences = Grid.diff(m.grid, newGrid);
+    const differences = Grid.diff(m.history.grids[m.history.cursor], newGrid);
     assert.equal(differences.length, 1, `only one token at a time`);
     assert.equal(differences[0].col, this.columnIdx, `play in the clicked column`);
     assert.equal(differences[0].from, null, `token replaces an unplayed position`);
     assert.equal(differences[0].to, m.currentPlayer, `token is for the current player`);
 
     // Update model
-    m.grid = newGrid;
+    m.history.cursor += 1;
+    m.history.grids = [...m.history.grids.slice(0, m.history.cursor), newGrid];
     m.playableColumn = await Grid.readPlayable(driver);
     m.currentPlayer = m.currentPlayer === 0 ? 1 : 0;
   }

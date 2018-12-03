@@ -18,7 +18,7 @@ class Controls extends React.Component<Props, State> {
     return (
       <div>
         <Button
-          id="back-button"
+          id="undo-button"
           variant="contained"
           onClick={() => this.props.cancelMove()}
           disabled={!this.props.canUndo}
@@ -29,7 +29,7 @@ class Controls extends React.Component<Props, State> {
           New Game <NoteAddIcon />
         </Button>
         <Button
-          id="forward-button"
+          id="redo-button"
           variant="contained"
           onClick={() => this.props.redoMove()}
           disabled={!this.props.canRedo}

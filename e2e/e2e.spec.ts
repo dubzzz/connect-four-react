@@ -8,6 +8,8 @@ import { Grid } from './components/Grid';
 import { Model } from './Model';
 import { CheckPlayerTurnCommand } from './commands/CheckPlayerTurnCommand';
 import { CheckEndOfGameCommand } from './commands/CheckEndOfGameCommand';
+import { UndoCommand } from './commands/UndoCommand';
+import { RedoCommand } from './commands/RedoCommand';
 
 const TimeoutMs = 10 * 60 * 1000; // 10min
 
@@ -31,6 +33,8 @@ describe('Playing with commands on UI', function() {
           fc.commands(
             [
               fc.constant(new NewGameCommand()),
+              fc.constant(new UndoCommand()),
+              fc.constant(new RedoCommand()),
               fc.constant(new CheckEndOfGameCommand()),
               fc.constant(new CheckPlayerTurnCommand()),
               fc.constant(new PlayForbiddenTokenCommand(0)),
@@ -52,10 +56,11 @@ describe('Playing with commands on UI', function() {
           ),
           async cmds => {
             await driver.get('http://localhost:3000/');
+            const emptyGrid = await Grid.emptyGrid(driver);
             const model: Model = {
               playableColumn: await Grid.allPlayable(driver),
-              grid: await Grid.emptyGrid(driver),
-              currentPlayer: 0
+              currentPlayer: 0,
+              history: { cursor: 0, grids: [emptyGrid] }
             };
             const setup = () => ({ model, real: driver });
             await fc.asyncModelRun(setup, cmds);

@@ -21,7 +21,8 @@ export class NewGameCommand implements AsyncCommand<Model, WebDriver> {
     // relying on our dreamt model do the checks for us
 
     // Update model
-    m.grid = await Grid.emptyGrid(driver);
+    m.history.cursor = 0;
+    m.history.grids = [await Grid.emptyGrid(driver)];
     m.playableColumn = await Grid.allPlayable(driver);
   }
   toString(): string {
