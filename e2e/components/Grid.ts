@@ -3,22 +3,12 @@ import { PlayerOrEmpty } from '../Model';
 import { hasClass } from './helpers';
 
 export class Grid {
-  static async allPlayable(driver: WebDriver) {
-    const gridColumns = await driver.findElements(By.className('board-column'));
-    return gridColumns.map(_ => true);
-  }
-  static async emptyGrid(driver: WebDriver) {
+  // Read
+
+  static async readDimensions(driver: WebDriver) {
     const gridColumns = await driver.findElements(By.className('board-column'));
     const gridLines = await gridColumns[0].findElements(By.className('board-cell'));
-    const grid: PlayerOrEmpty[][] = [];
-    for (let col = 0; col !== gridColumns.length; ++col) {
-      grid.push(gridLines.map(_ => null));
-    }
-    return grid;
-  }
-  static async tryPlayAt(driver: WebDriver, columnIdx: number) {
-    const gridColumns = await driver.findElements(By.className('board-column'));
-    await gridColumns[columnIdx].click();
+    return { cols: gridColumns.length, rows: gridLines.length };
   }
   static async readPlayable(driver: WebDriver) {
     const gridColumns = await driver.findElements(By.className('board-column'));
@@ -42,6 +32,27 @@ export class Grid {
       }
       done(grid);
     })) as PlayerOrEmpty[][];
+  }
+
+  // Actions
+
+  static async tryPlayAt(driver: WebDriver, columnIdx: number) {
+    const gridColumns = await driver.findElements(By.className('board-column'));
+    await gridColumns[columnIdx].click();
+  }
+
+  // Static helpers
+
+  static emptyGrid(rows: number, cols: number) {
+    const grid: PlayerOrEmpty[][] = [];
+    for (let col = 0; col !== cols; ++col) {
+      const gridColumn: PlayerOrEmpty[] = [];
+      for (let row = 0; row !== rows; ++row) {
+        gridColumn.push(null);
+      }
+      grid.push(gridColumn);
+    }
+    return grid;
   }
   static diff(gridFrom: PlayerOrEmpty[][], gridTo: PlayerOrEmpty[][]) {
     const differences: { row: number; col: number; from: PlayerOrEmpty; to: PlayerOrEmpty }[] = [];
