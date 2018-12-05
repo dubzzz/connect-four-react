@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { WebDriver } from 'selenium-webdriver';
@@ -18,7 +17,7 @@ export class CheckPlayerTurnCommand implements AsyncCommand<Model, WebDriver> {
     // Assert
     const label = await Instructions.read(driver);
     const expectedLabel = `Player #${m.currentPlayer + 1} turn`;
-    assert.equal(label, expectedLabel);
+    expect(label).toEqual(expectedLabel);
 
     // Update model
   }

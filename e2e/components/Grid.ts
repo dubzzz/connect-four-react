@@ -53,6 +53,14 @@ export class Grid {
     }
     return differences;
   }
+  static isEmpty(grid: PlayerOrEmpty[][]) {
+    for (let col = 0; col !== grid.length; ++col) {
+      for (let row = 0; row !== grid[col].length; ++row) {
+        if (grid[col][row] !== null) return false;
+      }
+    }
+    return true;
+  }
   static isFull(grid: PlayerOrEmpty[][]) {
     for (let col = 0; col !== grid.length; ++col) {
       for (let row = 0; row !== grid[col].length; ++row) {

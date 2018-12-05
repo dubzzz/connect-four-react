@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { Grid } from '../components/Grid';
@@ -20,8 +19,8 @@ export class PlayForbiddenTokenCommand implements AsyncCommand<Model, WebDriver>
     // Assert
     const newGrid = await Grid.read(driver);
     const newPlayableColumn = await Grid.readPlayable(driver);
-    assert.deepStrictEqual(newGrid, m.grid, `no modification of the grid`);
-    assert.deepStrictEqual(newPlayableColumn, m.playableColumn, `no modification of the playable areas`);
+    expect(newGrid).toEqual(m.history.grids[m.history.cursor]); // no modification of the grid
+    expect(newPlayableColumn).toEqual(m.playableColumn); // no modification of the playable areas
 
     // Update model
   }

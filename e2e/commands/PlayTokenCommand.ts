@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { Grid } from '../components/Grid';
@@ -19,11 +18,8 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
 
     // Assert
     const newGrid = await Grid.read(driver);
-    const differences = Grid.diff(m.history.grids[m.history.cursor], newGrid);
-    assert.equal(differences.length, 1, `only one token at a time`);
-    assert.equal(differences[0].col, this.columnIdx, `play in the clicked column`);
-    assert.equal(differences[0].from, null, `token replaces an unplayed position`);
-    assert.equal(differences[0].to, m.currentPlayer, `token is for the current player`);
+    const differences = Grid.diff(m.history.grids[m.history.cursor], newGrid).map(({ row, ...others }) => others);
+    expect(differences).toEqual([{ col: this.columnIdx, from: null, to: m.currentPlayer }]); // only one token at a time: on clicked column, on previously empty, with right player
 
     // Update model
     m.history.cursor += 1;

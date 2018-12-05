@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { Grid } from '../components/Grid';
@@ -11,8 +10,7 @@ import { Controls } from '../components/Controls';
  */
 export class UndoCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    const currentGrid = m.history.grids[m.history.cursor];
-    return currentGrid.find(vs => vs.find(e => e !== null) !== undefined) !== undefined;
+    return !Grid.isEmpty(m.history.grids[m.history.cursor]);
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -30,7 +28,7 @@ export class UndoCommand implements AsyncCommand<Model, WebDriver> {
         })
       );
     }
-    assert.equal(differences.length, 0, `identical to the grid right before the last move`);
+    expect(differences).toEqual([]); // identical to the grid right before the last move
 
     // Update model
     m.history.cursor -= 1;

@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { WebDriver } from 'selenium-webdriver';
@@ -11,7 +10,7 @@ import { Grid } from '../components/Grid';
  */
 export class CheckEndOfGameCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    return m.playableColumn.indexOf(true) === -1 && Grid.isFull(m.grid);
+    return m.playableColumn.indexOf(true) === -1 && Grid.isFull(m.history.grids[m.history.cursor]);
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -20,7 +19,7 @@ export class CheckEndOfGameCommand implements AsyncCommand<Model, WebDriver> {
     const previousPlayer = m.currentPlayer === 0 ? 1 : 0;
     const label = await Instructions.read(driver);
     const expectedLabel = `Player #${previousPlayer + 1} won`;
-    assert.equal(label, expectedLabel);
+    expect(label).toEqual(expectedLabel);
 
     // Update model
   }

@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { Grid } from '../components/Grid';
@@ -29,7 +28,7 @@ export class RedoCommand implements AsyncCommand<Model, WebDriver> {
         })
       );
     }
-    assert.equal(differences.length, 0, `identical to the grid right before the undo`);
+    expect(differences).toEqual([]); // identical to the grid right before the undo
 
     // Update model
     m.history.cursor += 1;
