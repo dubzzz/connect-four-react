@@ -10,7 +10,7 @@ import { Controls } from '../components/Controls';
  */
 export class UndoCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    return !Grid.isEmpty(m.history.grids[m.history.cursor]);
+    return !Grid.isEmpty(m.history.state[m.history.cursor].grid);
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -18,21 +18,13 @@ export class UndoCommand implements AsyncCommand<Model, WebDriver> {
 
     // Assert
     const newGrid = await Grid.read(driver);
-    const differences = Grid.diff(m.history.grids[m.history.cursor - 1], newGrid);
-    if (differences.length !== 0) {
-      console.log(
-        JSON.stringify({
-          got: newGrid,
-          expected: m.history.grids[m.history.cursor],
-          differences
-        })
-      );
-    }
+    const newPlayable = await Grid.readPlayable(driver);
+    const differences = Grid.diff(m.history.state[m.history.cursor - 1].grid, newGrid);
     expect(differences).toEqual([]); // identical to the grid right before the last move
+    expect(newPlayable).toEqual(m.history.state[m.history.cursor - 1].playable); // identical to playable right before the last move
 
     // Update model
     m.history.cursor -= 1;
-    m.playableColumn = await Grid.readPlayable(driver);
     m.currentPlayer = m.currentPlayer === 0 ? 1 : 0;
   }
   toString(): string {

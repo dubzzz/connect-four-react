@@ -10,7 +10,7 @@ import { WebDriver } from 'selenium-webdriver';
 export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
   constructor(readonly columnIdx: number) {}
   check(m: Readonly<Model>): boolean {
-    return m.playableColumn[this.columnIdx];
+    return m.history.state[m.history.cursor].playable[this.columnIdx];
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -18,13 +18,13 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
 
     // Assert
     const newGrid = await Grid.read(driver);
-    const differences = Grid.diff(m.history.grids[m.history.cursor], newGrid).map(({ row, ...others }) => others);
+    const differences = Grid.diff(m.history.state[m.history.cursor].grid, newGrid).map(({ row, ...others }) => others);
     expect(differences).toEqual([{ col: this.columnIdx, from: null, to: m.currentPlayer }]); // only one token at a time: on clicked column, on previously empty, with right player
 
     // Update model
+    const newPlayable = await Grid.readPlayable(driver);
     m.history.cursor += 1;
-    m.history.grids = [...m.history.grids.slice(0, m.history.cursor), newGrid];
-    m.playableColumn = await Grid.readPlayable(driver);
+    m.history.state = [...m.history.state.slice(0, m.history.cursor), { grid: newGrid, playable: newPlayable }];
     m.currentPlayer = m.currentPlayer === 0 ? 1 : 0;
   }
   toString(): string {

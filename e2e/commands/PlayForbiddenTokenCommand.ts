@@ -10,7 +10,7 @@ import { WebDriver } from 'selenium-webdriver';
 export class PlayForbiddenTokenCommand implements AsyncCommand<Model, WebDriver> {
   constructor(readonly columnIdx: number) {}
   check(m: Readonly<Model>): boolean {
-    return !m.playableColumn[this.columnIdx];
+    return !m.history.state[m.history.cursor].playable[this.columnIdx];
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -19,8 +19,8 @@ export class PlayForbiddenTokenCommand implements AsyncCommand<Model, WebDriver>
     // Assert
     const newGrid = await Grid.read(driver);
     const newPlayableColumn = await Grid.readPlayable(driver);
-    expect(newGrid).toEqual(m.history.grids[m.history.cursor]); // no modification of the grid
-    expect(newPlayableColumn).toEqual(m.playableColumn); // no modification of the playable areas
+    expect(newGrid).toEqual(m.history.state[m.history.cursor].grid); // no modification of the grid
+    expect(newPlayableColumn).toEqual(m.history.state[m.history.cursor].playable); // no modification of the playable areas
 
     // Update model
   }

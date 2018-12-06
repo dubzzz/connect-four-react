@@ -10,7 +10,10 @@ import { Grid } from '../components/Grid';
  */
 export class CheckEndOfGameCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    return m.playableColumn.indexOf(true) === -1 && Grid.isFull(m.history.grids[m.history.cursor]);
+    return (
+      m.history.state[m.history.cursor].playable.indexOf(true) === -1 &&
+      Grid.isFull(m.history.state[m.history.cursor].grid)
+    );
   }
   async run(m: Model, driver: WebDriver) {
     // Act

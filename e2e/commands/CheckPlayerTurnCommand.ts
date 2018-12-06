@@ -9,7 +9,7 @@ import { Instructions } from '../components/Instructions';
  */
 export class CheckPlayerTurnCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    return m.playableColumn.indexOf(true) !== -1;
+    return m.history.state[m.history.cursor].playable.indexOf(true) !== -1;
   }
   async run(m: Model, driver: WebDriver) {
     // Act

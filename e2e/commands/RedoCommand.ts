@@ -10,7 +10,7 @@ import { Controls } from '../components/Controls';
  */
 export class RedoCommand implements AsyncCommand<Model, WebDriver> {
   check(m: Readonly<Model>): boolean {
-    return m.history.cursor + 1 < m.history.grids.length;
+    return m.history.cursor + 1 < m.history.state.length;
   }
   async run(m: Model, driver: WebDriver) {
     // Act
@@ -18,21 +18,13 @@ export class RedoCommand implements AsyncCommand<Model, WebDriver> {
 
     // Assert
     const newGrid = await Grid.read(driver);
-    const differences = Grid.diff(m.history.grids[m.history.cursor + 1], newGrid);
-    if (differences.length !== 0) {
-      console.log(
-        JSON.stringify({
-          got: newGrid,
-          expected: m.history.grids[m.history.cursor + 1],
-          differences
-        })
-      );
-    }
+    const newPlayable = await Grid.readPlayable(driver);
+    const differences = Grid.diff(m.history.state[m.history.cursor + 1].grid, newGrid);
     expect(differences).toEqual([]); // identical to the grid right before the undo
+    expect(newPlayable).toEqual(m.history.state[m.history.cursor + 1].playable); // identical to playable before undo
 
     // Update model
     m.history.cursor += 1;
-    m.playableColumn = await Grid.readPlayable(driver);
     m.currentPlayer = m.currentPlayer === 0 ? 1 : 0;
   }
   toString(): string {

@@ -59,9 +59,8 @@ describe('Playing with commands on UI', function() {
             const dims = await Grid.readDimensions(driver);
             const emptyGrid = Grid.emptyGrid(dims.rows, dims.cols);
             const model: Model = {
-              playableColumn: Array(dims.cols).fill(true),
               currentPlayer: 0,
-              history: { cursor: 0, grids: [emptyGrid] }
+              history: { cursor: 0, state: [{ grid: emptyGrid, playable: Array(dims.cols).fill(true) }] }
             };
             const setup = () => ({ model, real: driver });
             await fc.asyncModelRun(setup, cmds);
