@@ -17,15 +17,21 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
     await Grid.tryPlayAt(driver, this.columnIdx);
 
     // Assert
+    const url = await driver.getCurrentUrl();
     const newGrid = await Grid.read(driver);
     const differences = Grid.diff(m.history.state[m.history.cursor].grid, newGrid).map(({ row, ...others }) => others);
     expect(differences).toEqual([{ col: this.columnIdx, from: null, to: m.currentPlayer }]); // only one token at a time: on clicked column, on previously empty, with right player
 
     // Update model
     const newPlayable = await Grid.readPlayable(driver);
+    const newCurrentPlayer = m.currentPlayer === 0 ? 1 : 0;
     m.history.cursor += 1;
-    m.history.state = [...m.history.state.slice(0, m.history.cursor), { grid: newGrid, playable: newPlayable }];
-    m.currentPlayer = m.currentPlayer === 0 ? 1 : 0;
+    m.history.state = [
+      ...m.history.state.slice(0, m.history.cursor),
+      { grid: newGrid, playable: newPlayable, currentPlayer: newCurrentPlayer }
+    ];
+    m.currentPlayer = newCurrentPlayer;
+    m.previouslySeenPaths[url] = [...m.history.state];
   }
   toString(): string {
     return `PlayToken[${this.columnIdx}]`;

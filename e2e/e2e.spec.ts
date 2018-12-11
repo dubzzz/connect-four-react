@@ -10,6 +10,7 @@ import { CheckPlayerTurnCommand } from './commands/CheckPlayerTurnCommand';
 import { CheckEndOfGameCommand } from './commands/CheckEndOfGameCommand';
 import { UndoCommand } from './commands/UndoCommand';
 import { RedoCommand } from './commands/RedoCommand';
+import { ReopenViaUrlCommand } from './commands/ReopenViaUrlCommand';
 
 const TimeoutMs = 10 * 60 * 1000; // 10min
 
@@ -50,7 +51,8 @@ describe('Playing with commands on UI', function() {
               fc.constant(new PlayTokenCommand(3)),
               fc.constant(new PlayTokenCommand(4)),
               fc.constant(new PlayTokenCommand(5)),
-              fc.constant(new PlayTokenCommand(6))
+              fc.constant(new PlayTokenCommand(6)),
+              fc.nat().map(idx => new ReopenViaUrlCommand(idx))
             ],
             250
           ),
@@ -60,7 +62,11 @@ describe('Playing with commands on UI', function() {
             const emptyGrid = Grid.emptyGrid(dims.rows, dims.cols);
             const model: Model = {
               currentPlayer: 0,
-              history: { cursor: 0, state: [{ grid: emptyGrid, playable: Array(dims.cols).fill(true) }] }
+              history: {
+                cursor: 0,
+                state: [{ grid: emptyGrid, playable: Array(dims.cols).fill(true), currentPlayer: 0 }]
+              },
+              previouslySeenPaths: {}
             };
             const setup = () => ({ model, real: driver });
             await fc.asyncModelRun(setup, cmds);

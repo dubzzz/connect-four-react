@@ -23,7 +23,13 @@ export class NewGameCommand implements AsyncCommand<Model, WebDriver> {
     // Update model
     const dims = await Grid.readDimensions(driver);
     m.history.cursor = 0;
-    m.history.state = [{ grid: Grid.emptyGrid(dims.rows, dims.cols), playable: Array(dims.cols).fill(true) }];
+    m.history.state = [
+      {
+        grid: Grid.emptyGrid(dims.rows, dims.cols),
+        playable: Array(dims.cols).fill(true),
+        currentPlayer: m.currentPlayer
+      }
+    ];
   }
   toString(): string {
     return `NewGame`;
