@@ -14,14 +14,17 @@ export class RedoCommand implements AsyncCommand<Model, WebDriver> {
   }
   async run(m: Model, driver: WebDriver) {
     // Act
+    const previousUrl = await driver.getCurrentUrl();
     await Controls.redo(driver);
 
     // Assert
+    const url = await driver.getCurrentUrl();
     const newGrid = await Grid.read(driver);
     const newPlayable = await Grid.readPlayable(driver);
     const differences = Grid.diff(m.history.state[m.history.cursor + 1].grid, newGrid);
     expect(differences).toEqual([]); // identical to the grid right before the undo
     expect(newPlayable).toEqual(m.history.state[m.history.cursor + 1].playable); // identical to playable before undo
+    expect(url).not.toEqual(previousUrl);
 
     // Update model
     m.history.cursor += 1;

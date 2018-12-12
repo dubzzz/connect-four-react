@@ -53,10 +53,10 @@ export default function(state = initialState, action: Actions) {
       return deriveStateForPlay(state, columnIdx);
     }
     case REPLAY_ALL: {
-      console.log('replay all');
-      const { columns } = (action as ReturnType<typeof replayAll>).payload;
+      const { columns, initialPlayer } = (action as ReturnType<typeof replayAll>).payload;
       const initialState = {
         ...state,
+        currentPlayer: initialPlayer,
         grid: emptyGrid(DefaultDimensions.width, DefaultDimensions.height),
         winner: Player.None,
         history: { past: [], future: [] }

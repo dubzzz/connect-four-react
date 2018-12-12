@@ -14,6 +14,7 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
   }
   async run(m: Model, driver: WebDriver) {
     // Act
+    const previousUrl = await driver.getCurrentUrl();
     await Grid.tryPlayAt(driver, this.columnIdx);
 
     // Assert
@@ -21,6 +22,7 @@ export class PlayTokenCommand implements AsyncCommand<Model, WebDriver> {
     const newGrid = await Grid.read(driver);
     const differences = Grid.diff(m.history.state[m.history.cursor].grid, newGrid).map(({ row, ...others }) => others);
     expect(differences).toEqual([{ col: this.columnIdx, from: null, to: m.currentPlayer }]); // only one token at a time: on clicked column, on previously empty, with right player
+    expect(url).not.toEqual(previousUrl);
 
     // Update model
     const newPlayable = await Grid.readPlayable(driver);

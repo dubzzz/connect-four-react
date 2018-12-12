@@ -1,4 +1,5 @@
 import { NEW_GAME, PLAY_AT, CANCEL_MOVE, REDO_MOVE, REPLAY_ALL } from './actionTypes';
+import { Player } from '../models/player';
 
 export const newGame = () => ({
   type: NEW_GAME,
@@ -8,9 +9,9 @@ export const playAt = (columnIdx: number) => ({
   type: PLAY_AT,
   payload: { columnIdx }
 });
-export const replayAll = (columns: number[]) => ({
+export const replayAll = (columns: number[], initialPlayer: Player) => ({
   type: REPLAY_ALL,
-  payload: { columns }
+  payload: { columns, initialPlayer }
 });
 export const cancelMove = () => ({
   type: CANCEL_MOVE,
