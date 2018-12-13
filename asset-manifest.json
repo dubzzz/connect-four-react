@@ -1,13 +1,13 @@
 {
   "main.css": "/connect-four-react/static/css/main.f4fcfdef.chunk.css",
-  "main.js": "/connect-four-react/static/js/main.1ee81566.chunk.js",
-  "main.js.map": "/connect-four-react/static/js/main.1ee81566.chunk.js.map",
+  "main.js": "/connect-four-react/static/js/main.b7009d25.chunk.js",
+  "main.js.map": "/connect-four-react/static/js/main.b7009d25.chunk.js.map",
   "static/js/1.c98a5955.chunk.js": "/connect-four-react/static/js/1.c98a5955.chunk.js",
   "static/js/1.c98a5955.chunk.js.map": "/connect-four-react/static/js/1.c98a5955.chunk.js.map",
   "runtime~main.js": "/connect-four-react/static/js/runtime~main.6a72d587.js",
   "runtime~main.js.map": "/connect-four-react/static/js/runtime~main.6a72d587.js.map",
   "static/css/main.f4fcfdef.chunk.css.map": "/connect-four-react/static/css/main.f4fcfdef.chunk.css.map",
   "index.html": "/connect-four-react/index.html",
-  "precache-manifest.a6bcecc4986388bfef4bebe99565d6a1.js": "/connect-four-react/precache-manifest.a6bcecc4986388bfef4bebe99565d6a1.js",
+  "precache-manifest.db291bb0bbe685040afb09fb686fcc07.js": "/connect-four-react/precache-manifest.db291bb0bbe685040afb09fb686fcc07.js",
   "service-worker.js": "/connect-four-react/service-worker.js"
 }
