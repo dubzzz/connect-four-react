@@ -25,16 +25,49 @@ export class RouteTracker extends React.Component<Props, State> {
     this.state = { onGoingWork: OnGoingWorkType.None };
   }
   private static parseState(serializedState: string): { columns: number[]; initialPlayer: Player } {
+    const b64ToInt = (b64Char: string): number => {
+      if ('A' <= b64Char && b64Char <= 'Z') return b64Char.charCodeAt(0) - 'A'.charCodeAt(0);
+      if ('a' <= b64Char && b64Char <= 'z') return b64Char.charCodeAt(0) - 'a'.charCodeAt(0) + 26;
+      if ('0' <= b64Char && b64Char <= '9') return b64Char.charCodeAt(0) - '0'.charCodeAt(0) + 52;
+      return b64Char === '+' ? 62 : 63;
+    };
     const initialPlayer = serializedState[1] === '2' ? Player.PlayerB : Player.PlayerA;
     const columns = serializedState
       .substring(2)
       .split('')
-      .map(k => +k)
+      .reduce((prev: number[], cur) => {
+        const v = b64ToInt(cur);
+        if (v < 8) {
+          prev.push(v - 1);
+          console.log(JSON.stringify(prev));
+        } else {
+          prev.push(Math.floor(v / 8) - 1);
+          prev.push((v % 8) - 1);
+          console.log(JSON.stringify(prev));
+        }
+        return prev;
+      }, [])
       .reverse();
     return { initialPlayer, columns };
   }
   private static serializeState(initialPlayer: Player, past: number[]): string {
-    return '/' + initialPlayer + past.join('');
+    const b64 = past
+      .reduce((prev: number[], pos) => {
+        if (prev[prev.length - 1] < 8) {
+          prev[prev.length - 1] *= 8;
+          prev[prev.length - 1] += pos + 1;
+        } else {
+          prev.push(pos + 1);
+        }
+        return prev;
+      }, [])
+      .map(v => {
+        if (v < 26) return String.fromCodePoint(v + 65); // A-Z
+        if (v < 52) return String.fromCodePoint(v + 97 - 26); // a-z
+        if (v < 62) return String.fromCodePoint(v + 48 - 52); // 0-9
+        return v === 62 ? '+' : '/';
+      });
+    return '/' + initialPlayer + b64.join('');
   }
   private static serializeStateFromParsed(parsedOutput: { columns: number[]; initialPlayer: Player }): string {
     return this.serializeState(parsedOutput.initialPlayer, parsedOutput.columns.reverse());
