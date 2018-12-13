@@ -13,7 +13,8 @@ import { RedoCommand } from './commands/RedoCommand';
 import { ReopenViaUrlCommand } from './commands/ReopenViaUrlCommand';
 import { RefreshCommand } from './commands/RefreshCommand';
 
-const TimeoutMs = 10 * 60 * 1000; // 10min
+const TimeoutMin = 30;
+const TimeoutMs = TimeoutMin * 60 * 1000;
 
 describe('Playing with commands on UI', function() {
   let driver: WebDriver;

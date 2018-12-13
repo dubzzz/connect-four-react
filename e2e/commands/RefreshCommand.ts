@@ -22,7 +22,7 @@ export class RefreshCommand implements AsyncCommand<Model, WebDriver> {
     const differences = Grid.diff(m.history.state[m.history.cursor].grid, newGrid);
     expect(differences).toEqual([]);
     expect(newPlayable).toEqual(m.history.state[m.history.cursor].playable);
-    expect(url).not.toEqual(previousUrl);
+    expect(url).toEqual(previousUrl);
 
     // Update model
   }
