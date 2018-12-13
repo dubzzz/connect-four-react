@@ -11,6 +11,7 @@ import { CheckEndOfGameCommand } from './commands/CheckEndOfGameCommand';
 import { UndoCommand } from './commands/UndoCommand';
 import { RedoCommand } from './commands/RedoCommand';
 import { ReopenViaUrlCommand } from './commands/ReopenViaUrlCommand';
+import { RefreshCommand } from './commands/RefreshCommand';
 
 const TimeoutMs = 10 * 60 * 1000; // 10min
 
@@ -37,6 +38,7 @@ describe('Playing with commands on UI', function() {
               fc.constant(new UndoCommand()),
               fc.constant(new RedoCommand()),
               fc.constant(new CheckEndOfGameCommand()),
+              fc.constant(new RefreshCommand()),
               fc.constant(new CheckPlayerTurnCommand()),
               fc.constant(new PlayForbiddenTokenCommand(0)),
               fc.constant(new PlayForbiddenTokenCommand(1)),
