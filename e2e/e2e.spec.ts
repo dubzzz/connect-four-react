@@ -60,6 +60,7 @@ describe('Playing with commands on UI', function() {
             250
           ),
           async cmds => {
+            await driver.get('about:blank');
             await driver.get('http://localhost:3000/');
             const dims = await Grid.readDimensions(driver);
             const emptyGrid = Grid.emptyGrid(dims.rows, dims.cols);

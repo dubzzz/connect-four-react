@@ -4039,10 +4039,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fast-check@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-1.8.0.tgz#fad9f975715b931ec7778b1e74d8d6f7427539c0"
-  integrity sha512-BkXKjgri0+wnqrDNv4kma/2YwrAq9SyPBd/7wzMaYGMAT+s100YHDz0K1y+IQf4yOK40CFLwK5BSh0cyY9F1/A==
+fast-check@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-1.8.2.tgz#ff1a1deb9cdeb697e122ecb0570cc958f7dc2606"
+  integrity sha512-urQagho0BtUvjhlKnf1xgV453j4qjaWUojD8DCAnB/BwjBXg9kfZaED0LnBqTdKsWb4fGOvQ0thzoldgZNBWXA==
   dependencies:
     lorem-ipsum "~1.0.6"
     pure-rand "^1.5.0"
