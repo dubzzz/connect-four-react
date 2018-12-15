@@ -24,16 +24,15 @@ export class RouteTracker extends React.Component<Props, State> {
     super(props);
     this.state = { onGoingWork: OnGoingWorkType.None };
   }
-  private static parseState(serializedState: string): { columns: number[]; initialPlayer: Player } {
+  private static parseState(serializedState: string): { columns: number[] } {
     const b64ToInt = (b64Char: string): number => {
       if ('A' <= b64Char && b64Char <= 'Z') return b64Char.charCodeAt(0) - 'A'.charCodeAt(0);
       if ('a' <= b64Char && b64Char <= 'z') return b64Char.charCodeAt(0) - 'a'.charCodeAt(0) + 26;
       if ('0' <= b64Char && b64Char <= '9') return b64Char.charCodeAt(0) - '0'.charCodeAt(0) + 52;
       return b64Char === '+' ? 62 : 63;
     };
-    const initialPlayer = serializedState[1] === '2' ? Player.PlayerB : Player.PlayerA;
     const columns = serializedState
-      .substring(2)
+      .substring(1)
       .split('')
       .reduce((prev: number[], cur) => {
         const v = b64ToInt(cur);
@@ -48,9 +47,9 @@ export class RouteTracker extends React.Component<Props, State> {
         return prev;
       }, [])
       .reverse();
-    return { initialPlayer, columns };
+    return { columns };
   }
-  private static serializeState(initialPlayer: Player, past: number[]): string {
+  private static serializeState(past: number[]): string {
     const b64 = past
       .reduce((prev: number[], pos) => {
         if (prev[prev.length - 1] < 8) {
@@ -67,23 +66,20 @@ export class RouteTracker extends React.Component<Props, State> {
         if (v < 62) return String.fromCodePoint(v + 48 - 52); // 0-9
         return v === 62 ? '+' : '/';
       });
-    return '/' + initialPlayer + b64.join('');
+    return '/' + b64.join('');
   }
-  private static serializeStateFromParsed(parsedOutput: { columns: number[]; initialPlayer: Player }): string {
-    return this.serializeState(parsedOutput.initialPlayer, parsedOutput.columns.reverse());
+  private static serializeStateFromParsed(parsedOutput: { columns: number[] }): string {
+    return this.serializeState(parsedOutput.columns.reverse());
   }
   private static serializeStateFromProps(props: Props): string {
-    const currentPlayer = props.connectFour.currentPlayer;
-    const nextPlayer = currentPlayer === Player.PlayerA ? Player.PlayerB : Player.PlayerA;
-    const initialPlayer = props.connectFour.history.past.length % 2 === 0 ? currentPlayer : nextPlayer;
-    return this.serializeState(initialPlayer, props.connectFour.history.past);
+    return this.serializeState(props.connectFour.history.past);
   }
   componentDidMount() {
     // Custom location
     const serializedState = RouteTracker.serializeStateFromProps(this.props);
     if (this.props.location.pathname !== serializedState) {
       const userState = RouteTracker.parseState(this.props.location.pathname);
-      this.props.replayAll(userState.columns, userState.initialPlayer);
+      this.props.replayAll(userState.columns);
       this.setState({
         onGoingWork: OnGoingWorkType.Manual,
         redirectUrl: RouteTracker.serializeStateFromParsed(userState)
@@ -119,7 +115,7 @@ export class RouteTracker extends React.Component<Props, State> {
     // ________ User manually changed the location: grid has to be updated
     if (this.props.location.pathname !== prevProps.location.pathname) {
       const userState = RouteTracker.parseState(this.props.location.pathname);
-      this.props.replayAll(userState.columns, userState.initialPlayer);
+      this.props.replayAll(userState.columns);
       this.setState({
         onGoingWork: OnGoingWorkType.Manual,
         redirectUrl: RouteTracker.serializeStateFromParsed(userState)

@@ -9,9 +9,9 @@ export const playAt = (columnIdx: number) => ({
   type: PLAY_AT,
   payload: { columnIdx }
 });
-export const replayAll = (columns: number[], initialPlayer: Player) => ({
+export const replayAll = (columns: number[]) => ({
   type: REPLAY_ALL,
-  payload: { columns, initialPlayer }
+  payload: { columns }
 });
 export const cancelMove = () => ({
   type: CANCEL_MOVE,
