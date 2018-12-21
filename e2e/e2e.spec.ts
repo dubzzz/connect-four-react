@@ -76,7 +76,7 @@ describe('Playing with commands on UI', function() {
             await fc.asyncModelRun(setup, cmds);
           }
         ),
-        { verbose: fc.VerbosityLevel.VeryVerbose }
+        { verbose: 2 }
       );
     },
     TimeoutMs
