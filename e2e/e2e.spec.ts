@@ -75,7 +75,8 @@ describe('Playing with commands on UI', function() {
             const setup = () => ({ model, real: driver });
             await fc.asyncModelRun(setup, cmds);
           }
-        )
+        ),
+        { verbose: fc.VerbosityLevel.VeryVerbose }
       );
     },
     TimeoutMs
