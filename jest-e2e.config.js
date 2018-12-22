@@ -5,6 +5,6 @@ module.exports = {
       tsConfig: 'tsconfig.json'
     }
   },
-  testMatch: ['**/e2e/*.spec.(ts|tsx|js|jsx)'],
+  testMatch: ['**/e2e/**/*.spec.(ts|tsx|js|jsx)'],
   preset: 'ts-jest'
 };
