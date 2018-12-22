@@ -1,5 +1,5 @@
 import { WebDriver, By } from 'selenium-webdriver';
-import { PlayerOrEmpty } from '../Model';
+import { PlayerOrEmpty } from '../types';
 import { hasClass } from './helpers';
 
 export class Grid {

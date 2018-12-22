@@ -1,8 +1,8 @@
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { WebDriver } from 'selenium-webdriver';
-import { Instructions } from '../components/Instructions';
-import { Grid } from '../components/Grid';
+import { Instructions } from '../../components/Instructions';
+import { Grid } from '../../components/Grid';
 
 /**
  * Whenever there is no more moves available (except full grid)
@@ -22,7 +22,12 @@ export class CheckEndOfGameCommand implements AsyncCommand<Model, WebDriver> {
     const previousPlayer = m.currentPlayer === 0 ? 1 : 0;
     const label = await Instructions.read(driver);
     const expectedLabel = `Player #${previousPlayer + 1} won`;
-    expect(label).toEqual(expectedLabel);
+    if (Grid.isFull(m.history.state[m.history.cursor].grid)) {
+      const expectedPlayerTurnLabel = `Player #${m.currentPlayer + 1} turn`;
+      expect([expectedLabel, expectedPlayerTurnLabel]).toContain(label);
+    } else {
+      expect(label).toEqual(expectedLabel);
+    }
 
     // Update model
   }

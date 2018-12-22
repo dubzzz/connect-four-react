@@ -1,6 +1,6 @@
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
-import { Grid } from '../components/Grid';
+import { Grid } from '../../components/Grid';
 import { WebDriver } from 'selenium-webdriver';
 
 /**

@@ -1,7 +1,7 @@
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
 import { WebDriver } from 'selenium-webdriver';
-import { Instructions } from '../components/Instructions';
+import { Instructions } from '../../components/Instructions';
 
 /**
  * Whenever there is at least one available playable column

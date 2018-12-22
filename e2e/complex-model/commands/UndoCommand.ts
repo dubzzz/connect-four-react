@@ -1,8 +1,8 @@
 import { AsyncCommand } from 'fast-check';
 import { Model } from '../Model';
-import { Grid } from '../components/Grid';
+import { Grid } from '../../components/Grid';
 import { WebDriver } from 'selenium-webdriver';
-import { Controls } from '../components/Controls';
+import { Controls } from '../../components/Controls';
 
 /**
  * Whenever there is at least one token in the grid, the user should be able to undo
