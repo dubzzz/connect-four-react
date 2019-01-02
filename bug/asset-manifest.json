@@ -1,13 +1,13 @@
 {
-  "main.css": "/connect-four-react/static/css/main.501ace8b.chunk.css",
-  "main.js": "/connect-four-react/static/js/main.ec2c3aa6.chunk.js",
-  "main.js.map": "/connect-four-react/static/js/main.ec2c3aa6.chunk.js.map",
-  "static/js/1.c98a5955.chunk.js": "/connect-four-react/static/js/1.c98a5955.chunk.js",
-  "static/js/1.c98a5955.chunk.js.map": "/connect-four-react/static/js/1.c98a5955.chunk.js.map",
-  "runtime~main.js": "/connect-four-react/static/js/runtime~main.6a72d587.js",
-  "runtime~main.js.map": "/connect-four-react/static/js/runtime~main.6a72d587.js.map",
-  "static/css/main.501ace8b.chunk.css.map": "/connect-four-react/static/css/main.501ace8b.chunk.css.map",
-  "index.html": "/connect-four-react/index.html",
-  "precache-manifest.ddd0effc8a057959fd4c5eeceaa77372.js": "/connect-four-react/precache-manifest.ddd0effc8a057959fd4c5eeceaa77372.js",
-  "service-worker.js": "/connect-four-react/service-worker.js"
+  "main.css": "/connect-four-react/bug/static/css/main.501ace8b.chunk.css",
+  "main.js": "/connect-four-react/bug/static/js/main.ec2c3aa6.chunk.js",
+  "main.js.map": "/connect-four-react/bug/static/js/main.ec2c3aa6.chunk.js.map",
+  "static/js/1.c98a5955.chunk.js": "/connect-four-react/bug/static/js/1.c98a5955.chunk.js",
+  "static/js/1.c98a5955.chunk.js.map": "/connect-four-react/bug/static/js/1.c98a5955.chunk.js.map",
+  "runtime~main.js": "/connect-four-react/bug/static/js/runtime~main.7105d4ff.js",
+  "runtime~main.js.map": "/connect-four-react/bug/static/js/runtime~main.7105d4ff.js.map",
+  "static/css/main.501ace8b.chunk.css.map": "/connect-four-react/bug/static/css/main.501ace8b.chunk.css.map",
+  "index.html": "/connect-four-react/bug/index.html",
+  "precache-manifest.095d88004d7d34e6f4522b294d5bc15c.js": "/connect-four-react/bug/precache-manifest.095d88004d7d34e6f4522b294d5bc15c.js",
+  "service-worker.js": "/connect-four-react/bug/service-worker.js"
 }
