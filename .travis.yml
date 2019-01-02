@@ -6,6 +6,14 @@ script:
   - yarn build
 
 deploy:
+  script:
+    - mv build build-success
+    - git checkout buggy-implementation
+    - yarn install
+    - yarn build
+    - mv build bug
+    - mv build-success build
+    - mv bug build/
   provider: pages
   skip-cleanup: true
   keep-history: true
