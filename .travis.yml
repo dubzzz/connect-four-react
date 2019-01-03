@@ -4,6 +4,13 @@ node_js: '10'
 script:
   - yarn test
   - yarn build
+  - git clone https://github.com/dubzzz/connect-four-react.git
+  - cd connect-four-react
+  - git checkout buggy-implementation
+  - yarn install
+  - yarn build
+  - cd ..
+  - mv connect-four-react/build build/bug
 
 deploy:
   provider: pages
