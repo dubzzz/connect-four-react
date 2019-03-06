@@ -1,4 +1,4 @@
-# Connect Four
+# Connect Four.
 
 _with React & Redux_
 
