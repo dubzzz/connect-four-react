@@ -1,3 +1,4 @@
+import './RouteTracker.css';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
@@ -125,7 +126,11 @@ export class RouteTracker extends React.Component<Props, State> {
   }
   render() {
     if (this.state.onGoingWork === OnGoingWorkType.None || this.state.redirectUrl === this.props.location.pathname) {
-      return <Fragment />;
+      return (
+        <div className="url">
+          <b>URL:</b> {this.props.location.pathname}
+        </div>
+      );
     }
     return <Redirect to={this.state.redirectUrl} />;
   }
